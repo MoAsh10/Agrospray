@@ -1,0 +1,38 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Summary Stats - Read only for authenticated users
+    match /stats/summary {
+      allow read: if isAuthenticated();
+      allow write: if false; // Only system can update stats
+    }
+
+    // Devices - Read for authenticated users, write for system/admin
+    match /devices/{deviceId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated(); // For now, allow authenticated users to update devices
+    }
+
+    // Logs - Read for authenticated users, write for system
+    match /logs/{logId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated(); // For now, allow authenticated users to create logs
+    }
+
+    // Alerts - Read for authenticated users, update for read status
+    match /alerts/{alertId} {
+      allow read: if isAuthenticated();
+      allow update: if isAuthenticated() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isRead']);
+      allow delete: if isAuthenticated();
+    }
+  }
+}

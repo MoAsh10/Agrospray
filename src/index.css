@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #00FF94; /* Vibrant Neon Green */
+  --color-secondary: #1A1A1A;
+  --color-background: #050505;
+  --color-accent: #00E0FF; /* Electric Blue */
+  --color-dark: #FFFFFF;
+  --color-card: rgba(20, 20, 20, 0.8);
+  --color-border: rgba(255, 255, 255, 0.1);
+  
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-white font-sans antialiased selection:bg-primary/30 selection:text-primary;
+    background-image: 
+      radial-gradient(circle at 50% -20%, rgba(0, 255, 148, 0.15), transparent 80%),
+      radial-gradient(circle at 0% 100%, rgba(0, 224, 255, 0.1), transparent 50%);
+    background-attachment: fixed;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-card backdrop-blur-xl border border-border shadow-2xl;
+  }
+  
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 cursor-pointer text-neutral-400 hover:text-white hover:bg-white/5;
+  }
+  
+  .sidebar-item-active {
+    @apply bg-primary/10 text-primary border border-primary/20 shadow-[0_0_20px_rgba(0,255,148,0.2)];
+  }
+
+  .glow-text {
+    @apply text-primary drop-shadow-[0_0_8px_rgba(0,255,148,0.5)];
+  }
+
+  .neon-border {
+    @apply border border-primary/30 shadow-[0_0_15px_rgba(0,255,148,0.1)];
+  }
+}
