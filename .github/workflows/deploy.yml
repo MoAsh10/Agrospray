@@ -22,6 +22,9 @@ jobs:
       - name: Install dependencies
         run: npm install
       
+      - name: Check build files
+        run: ls -la && cat package.json
+      
       - name: Build
         run: npm run build
         env:
